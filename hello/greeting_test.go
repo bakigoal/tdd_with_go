@@ -8,22 +8,29 @@ func TestHello(t *testing.T) {
 		want := "Hello, John!"
 		assertEquals(t, got, want)
 	})
-
-	t.Run("Скажи привет Джону", func(t *testing.T) {
+	t.Run("Скажи привет Джон", func(t *testing.T) {
 		got := Hello("Джон", "ru")
 		want := "Привет, Джон!"
 		assertEquals(t, got, want)
 	})
-
-	t.Run("Скажи привет Миру, если не задано имя", func(t *testing.T) {
+	t.Run("Скажи привет Мир", func(t *testing.T) {
 		got := Hello("", "ru")
 		want := "Привет, Мир!"
 		assertEquals(t, got, want)
 	})
-
-	t.Run("Say hello to World if name is empty", func(t *testing.T) {
+	t.Run("Say hello World", func(t *testing.T) {
 		got := Hello("", "en")
 		want := "Hello, World!"
+		assertEquals(t, got, want)
+	})
+	t.Run("in Spanish", func(t *testing.T) {
+		got := Hello("Elodie", "es")
+		want := "Hola, Elodie!"
+		assertEquals(t, got, want)
+	})
+	t.Run("in French", func(t *testing.T) {
+		got := Hello("Elodie", "fr")
+		want := "Bonjour, Elodie!"
 		assertEquals(t, got, want)
 	})
 }
