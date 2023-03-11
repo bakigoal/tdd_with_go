@@ -7,6 +7,6 @@ func TestHello(t *testing.T) {
 	expected := "Привет, John"
 
 	if actual != expected {
-		t.Errorf("Expected: %s, but was: %s", expected, actual)
+		t.Errorf("Expected: %q, but was: %q", expected, actual)
 	}
 }
