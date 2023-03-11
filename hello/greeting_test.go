@@ -2,11 +2,8 @@ package hello
 
 import "testing"
 
-func TestHelloRu(t *testing.T) {
+func TestHello(t *testing.T) {
 	assertHello(t, "John", "ru", "Привет, John!")
-}
-
-func TestHelloEn(t *testing.T) {
 	assertHello(t, "John", "en", "Hello, John!")
 }
 
