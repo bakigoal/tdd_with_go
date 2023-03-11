@@ -3,7 +3,7 @@ package hello
 import "fmt"
 
 func Hello(name, language string) string {
-	return fmt.Sprintf("%s, %s", greeting(language), name)
+	return fmt.Sprintf("%s, %s!", greeting(language), name)
 }
 
 var greetings = map[string]string{
