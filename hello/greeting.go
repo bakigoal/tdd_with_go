@@ -3,18 +3,27 @@ package hello
 import "fmt"
 
 func Hello(name, language string) string {
-	return fmt.Sprintf("%s, %s!", greeting(language), name)
+	greet := greeting(language)
+	if name == "" {
+		name = greet.defaultName
+	}
+	return fmt.Sprintf("%s, %s!", greet.greeting, name)
 }
 
-var greetings = map[string]string{
-	"ru": "Привет",
-	"es": "Hola",
-	"fr": "Bonjour",
+type Greet struct {
+	greeting    string
+	defaultName string
 }
 
-const defaultGreeting = "Hello"
+var greetings = map[string]Greet{
+	"ru": {"Привет", "мир"},
+	"es": {"Hola", "Espania"},
+	"fr": {"Bonjour", "Paris"},
+}
 
-func greeting(language string) string {
+var defaultGreeting = Greet{"Hello", "world"}
+
+func greeting(language string) Greet {
 	greeting, exists := greetings[language]
 	if exists {
 		return greeting

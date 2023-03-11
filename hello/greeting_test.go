@@ -3,13 +3,13 @@ package hello
 import "testing"
 
 func TestHello(t *testing.T) {
-	assertHello(t, "John", "ru", "Привет, John!")
-	assertHello(t, "John", "en", "Hello, John!")
+	assertEquals(t, Hello("John", "ru"), "Привет, John!")
+	assertEquals(t, Hello("John", "en"), "Hello, John!")
+	assertEquals(t, Hello("", "en"), "Hello, world!")
+	assertEquals(t, Hello("", "ru"), "Привет, мир!")
 }
 
-func assertHello(t *testing.T, name, lang, want string) {
-	got := Hello(name, lang)
-
+func assertEquals(t *testing.T, got, want string) {
 	if got != want {
 		t.Errorf("got %q want %q", want, got)
 	}
