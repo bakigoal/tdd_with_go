@@ -3,10 +3,10 @@ package hello
 import "testing"
 
 func TestHello(t *testing.T) {
-	actual := Hello("John", "ru")
-	expected := "Привет, John"
+	got := Hello("John", "ru")
+	want := "Привет, John!"
 
-	if actual != expected {
-		t.Errorf("Expected: %q, but was: %q", expected, actual)
+	if got != want {
+		t.Errorf("got %q want %q", want, got)
 	}
 }
