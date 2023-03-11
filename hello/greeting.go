@@ -12,10 +12,12 @@ var greetings = map[string]string{
 	"fr": "Bonjour",
 }
 
+const defaultGreeting = "Hello"
+
 func greeting(language string) string {
 	greeting, exists := greetings[language]
 	if exists {
 		return greeting
 	}
-	return "Hello"
+	return defaultGreeting
 }
