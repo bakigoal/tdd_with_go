@@ -16,12 +16,12 @@ type Greet struct {
 }
 
 var greetings = map[string]Greet{
-	"ru": {"Привет", "мир"},
+	"ru": {"Привет", "Мир"},
 	"es": {"Hola", "Espania"},
 	"fr": {"Bonjour", "Paris"},
 }
 
-var defaultGreeting = Greet{"Hello", "world"}
+var defaultGreeting = Greet{"Hello", "World"}
 
 func greeting(language string) Greet {
 	greeting, exists := greetings[language]
