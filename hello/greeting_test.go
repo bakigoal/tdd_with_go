@@ -28,7 +28,13 @@ func TestHello(t *testing.T) {
 	})
 }
 
-func assertEquals(t *testing.T, got, want string) {
+// For helper functions, it's a good idea to accept a testing.TB
+// which is an interface that *testing.T and *testing.B
+func assertEquals(t testing.TB, got, want string) {
+	// t.Helper() is needed to tell the test suite that this method is a helper.
+	// By doing this when it fails the line number reported will be in our function call
+	// rather than inside our test helper
+	t.Helper()
 	if got != want {
 		t.Errorf("got %q want %q", want, got)
 	}
