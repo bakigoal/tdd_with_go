@@ -30,7 +30,7 @@ func TestAdd(t *testing.T) {
 
 	got, err := dictionary.Search("test")
 	want := "this is just a test"
-	assert.NoError(t, err)
+	assert.NoErrorf(t, err, "should find added word")
 	assertString(t, got, want)
 }
 
