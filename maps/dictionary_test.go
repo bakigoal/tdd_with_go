@@ -16,13 +16,8 @@ func TestSearch(t *testing.T) {
 
 	t.Run("unknown word", func(t *testing.T) {
 		_, err := dictionary.Search("unknown")
-		want := "could not find the word you were looking for"
 
-		if err == nil {
-			t.Fatal("expected to get an error")
-		}
-
-		assertString(t, err.Error(), want)
+		assertError(t, err, ErrNotFound)
 	})
 }
 
@@ -30,5 +25,15 @@ func assertString(t testing.TB, got, want string) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+// By creating a new helper we were able to simplify our test,
+// and start using our ErrNotFound variable
+// so our test doesn't fail if we change the error text in the future
+func assertError(t testing.TB, got, want error) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got error %q want %q", got, want)
 	}
 }
