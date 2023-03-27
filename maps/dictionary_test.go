@@ -1,6 +1,9 @@
 package maps
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestSearch(t *testing.T) {
 	dictionary := Dictionary{
@@ -19,6 +22,16 @@ func TestSearch(t *testing.T) {
 
 		assertError(t, err, ErrNotFound)
 	})
+}
+
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	dictionary.Add("test", "this is just a test")
+
+	got, err := dictionary.Search("test")
+	want := "this is just a test"
+	assert.NoError(t, err)
+	assertString(t, got, want)
 }
 
 func assertString(t testing.TB, got, want string) {
