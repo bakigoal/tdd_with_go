@@ -14,41 +14,41 @@ func TestSearch(t *testing.T) {
 		got, _ := dictionary.Search("test")
 		want := "this is just a test"
 
-		assertString(t, got, want)
+		assert.Equal(t, got, want)
 	})
 
 	t.Run("unknown word", func(t *testing.T) {
 		_, err := dictionary.Search("unknown")
 
-		assertError(t, err, ErrNotFound)
+		assert.Error(t, err, ErrNotFound)
 	})
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	word := "test"
-	definition := "this is just a test"
+	t.Run("new word", func(t *testing.T) {
+		dictionary := Dictionary{}
+		word := "test"
+		definition := "this is just a test"
 
-	dictionary.Add(word, definition)
-	got, err := dictionary.Search(word)
+		err := dictionary.Add(word, definition)
+		assert.NoError(t, err)
 
-	assert.NoError(t, err)
-	assertString(t, got, definition)
-}
+		got, err := dictionary.Search(word)
+		assert.NoError(t, err)
+		assert.Equal(t, got, definition)
+	})
 
-func assertString(t testing.TB, got, want string) {
-	t.Helper()
-	if got != want {
-		t.Errorf("got %q want %q", got, want)
-	}
-}
+	t.Run("existing word", func(t *testing.T) {
+		word := "key 1"
+		oldDefinition := "value 1"
+		newDefinition := "this is just a test"
+		dictionary := Dictionary{word: oldDefinition}
 
-// By creating a new helper we were able to simplify our test,
-// and start using our ErrNotFound variable
-// so our test doesn't fail if we change the error text in the future
-func assertError(t testing.TB, got, want error) {
-	t.Helper()
-	if got != want {
-		t.Errorf("got error %q want %q", got, want)
-	}
+		err := dictionary.Add(word, newDefinition)
+		assert.Error(t, err, ErrWordExists)
+
+		got, err := dictionary.Search(word)
+		assert.NoError(t, err)
+		assert.Equal(t, got, oldDefinition)
+	})
 }
