@@ -16,9 +16,9 @@ func (s *SpySleeper) Sleep() {
 
 func TestCountdown(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	sleeper := SpySleeper{}
+	sleeper := &SpySleeper{}
 
-	Countdown(buffer, &sleeper)
+	Countdown(buffer, sleeper)
 	want := `3
 2
 1
