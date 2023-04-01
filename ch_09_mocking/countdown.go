@@ -18,12 +18,12 @@ type Sleeper interface {
 type DefaultSleeper struct{}
 
 type ConfigurableSleeper struct {
-	ConfigDuration time.Duration
-	ConfigSleep    func(time.Duration)
+	Duration time.Duration
+	SleepFn  func(time.Duration)
 }
 
 func (s *ConfigurableSleeper) Sleep() {
-	s.ConfigSleep(s.ConfigDuration)
+	s.SleepFn(s.Duration)
 }
 
 func (s *DefaultSleeper) Sleep() {

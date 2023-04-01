@@ -9,7 +9,7 @@ import (
 
 const (
 	write = "write"
-	sleep = "ConfigSleep"
+	sleep = "SleepFn"
 )
 
 type SpyCountdownOperations struct {
@@ -36,7 +36,7 @@ func TestCountdown(t *testing.T) {
 Go!`
 		assert.Equal(t, want, buffer.String())
 	})
-	t.Run("ConfigSleep before every print", func(t *testing.T) {
+	t.Run("SleepFn before every print", func(t *testing.T) {
 		spySleepPrinter := &SpyCountdownOperations{}
 
 		Countdown(spySleepPrinter, spySleepPrinter)
