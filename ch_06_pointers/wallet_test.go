@@ -1,4 +1,4 @@
-package pointers
+package ch_06_pointers
 
 import (
 	"testing"

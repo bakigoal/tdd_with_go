@@ -1,4 +1,4 @@
-package integers
+package ch_02_integers
 
 import (
 	"fmt"

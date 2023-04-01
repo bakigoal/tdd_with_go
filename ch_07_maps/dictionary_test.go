@@ -1,4 +1,4 @@
-package maps
+package ch_07_maps
 
 import (
 	"github.com/stretchr/testify/assert"

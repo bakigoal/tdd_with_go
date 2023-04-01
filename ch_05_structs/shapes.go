@@ -1,4 +1,4 @@
-package structs
+package ch_05_structs
 
 import "math"
 

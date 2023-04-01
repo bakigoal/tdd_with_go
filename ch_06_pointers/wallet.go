@@ -1,4 +1,4 @@
-package pointers
+package ch_06_pointers
 
 import (
 	"errors"
@@ -17,7 +17,7 @@ func (b Bitcoin) String() string {
 
 // a pointer to wallet
 func (w *Wallet) Deposit(amount Bitcoin) {
-	// struct pointers automatically deReferenced to
+	// struct ch_06_pointers automatically deReferenced to
 	// (*w).balance += amount
 	w.balance += amount
 }

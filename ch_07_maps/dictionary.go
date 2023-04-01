@@ -1,4 +1,4 @@
-package maps
+package ch_07_maps
 
 type Dictionary map[string]string
 

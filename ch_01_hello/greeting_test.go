@@ -1,9 +1,9 @@
-package hello
+package ch_01_hello
 
 import "testing"
 
 func TestHello(t *testing.T) {
-	t.Run("Say hello to John", func(t *testing.T) {
+	t.Run("Say ch_01_hello to John", func(t *testing.T) {
 		got := Hello("John", "en")
 		want := "Hello, John!"
 		assertEquals(t, got, want)
@@ -18,7 +18,7 @@ func TestHello(t *testing.T) {
 		want := "Привет, Мир!"
 		assertEquals(t, got, want)
 	})
-	t.Run("Say hello World", func(t *testing.T) {
+	t.Run("Say ch_01_hello World", func(t *testing.T) {
 		got := Hello("", "en")
 		want := "Hello, World!"
 		assertEquals(t, got, want)

@@ -1,4 +1,4 @@
-package arrays
+package ch_04_arrays
 
 import (
 	"reflect"

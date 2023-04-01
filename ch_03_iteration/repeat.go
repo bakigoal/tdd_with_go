@@ -1,4 +1,4 @@
-package iteration
+package ch_03_iteration
 
 func Repeat(s string, count int) string {
 	var result string
