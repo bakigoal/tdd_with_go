@@ -11,16 +11,10 @@ func TestSearch(t *testing.T) {
 	}
 
 	t.Run("known word", func(t *testing.T) {
-		got, _ := dictionary.Search("test")
-		want := "this is just a test"
-
-		assert.Equal(t, got, want)
+		assertDefinition(t, dictionary, "test", "this is just a test")
 	})
-
 	t.Run("unknown word", func(t *testing.T) {
-		_, err := dictionary.Search("unknown")
-
-		assert.Error(t, err, ErrNotFound)
+		assertNoDefinition(t, dictionary, "unknown word")
 	})
 }
 
@@ -65,6 +59,7 @@ func TestUpdate(t *testing.T) {
 
 		err := dictionary.Update(word, newDefinition)
 		assert.Error(t, err, ErrWordDoesNotExists)
+		assertNoDefinition(t, dictionary, word)
 	})
 }
 
@@ -74,12 +69,16 @@ func TestDelete(t *testing.T) {
 
 	dictionary.Delete(word)
 
-	_, err := dictionary.Search(word)
-	assert.Error(t, err, ErrNotFound)
+	assertNoDefinition(t, dictionary, word)
 }
 
 func assertDefinition(t *testing.T, dictionary Dictionary, word string, definition string) {
 	got, err := dictionary.Search(word)
 	assert.NoError(t, err)
 	assert.Equal(t, got, definition)
+}
+
+func assertNoDefinition(t *testing.T, dictionary Dictionary, word string) {
+	_, err := dictionary.Search(word)
+	assert.Error(t, err, ErrNotFound)
 }
