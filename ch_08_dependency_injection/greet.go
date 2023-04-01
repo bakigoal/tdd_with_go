@@ -1,10 +1,10 @@
 package ch_08_dependency_injection
 
 import (
-	"bytes"
 	"fmt"
+	"io"
 )
 
-func Greet(writer *bytes.Buffer, word string) {
+func Greet(writer io.Writer, word string) {
 	fmt.Fprintf(writer, "Hello, %s!", word)
 }
