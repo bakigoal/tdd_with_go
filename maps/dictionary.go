@@ -28,3 +28,7 @@ func (d Dictionary) Add(word, definition string) error {
 	d[word] = definition
 	return nil
 }
+
+func (d Dictionary) Update(word, newDefinition string) {
+	d[word] = newDefinition
+}
