@@ -6,5 +6,5 @@ import (
 )
 
 func Greet(writer *bytes.Buffer, word string) {
-	fmt.Fprint(writer, "Hello, "+word+"!")
+	fmt.Fprintf(writer, "Hello, %s!", word)
 }
