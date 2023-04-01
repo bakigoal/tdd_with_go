@@ -9,8 +9,9 @@ func (e DictionaryError) Error() string {
 }
 
 const (
-	ErrNotFound   = DictionaryError("could not find the word you were looking for")
-	ErrWordExists = DictionaryError("cannot add word because it already exists")
+	ErrNotFound          = DictionaryError("could not find the word you were looking for")
+	ErrWordExists        = DictionaryError("cannot add word because it already exists")
+	ErrWordDoesNotExists = DictionaryError("cannot update word because it doesn't exists")
 )
 
 func (d Dictionary) Search(word string) (string, error) {
@@ -22,17 +23,27 @@ func (d Dictionary) Search(word string) (string, error) {
 }
 
 func (d Dictionary) Add(word, definition string) error {
-	if _, ok := d[word]; ok {
+	_, err := d.Search(word)
+	switch err {
+	case ErrNotFound:
+		d[word] = definition
+		return nil
+	case nil:
 		return ErrWordExists
+	default:
+		return err
 	}
-	d[word] = definition
-	return nil
 }
 
 func (d Dictionary) Update(word, newDefinition string) error {
-	if _, ok := d[word]; ok {
+	_, err := d.Search(word)
+	switch err {
+	case ErrNotFound:
+		return ErrWordDoesNotExists
+	case nil:
 		d[word] = newDefinition
 		return nil
+	default:
+		return err
 	}
-	return ErrNotFound
 }
