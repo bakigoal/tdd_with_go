@@ -29,6 +29,10 @@ func (d Dictionary) Add(word, definition string) error {
 	return nil
 }
 
-func (d Dictionary) Update(word, newDefinition string) {
-	d[word] = newDefinition
+func (d Dictionary) Update(word, newDefinition string) error {
+	if _, ok := d[word]; ok {
+		d[word] = newDefinition
+		return nil
+	}
+	return ErrNotFound
 }
