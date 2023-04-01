@@ -6,5 +6,6 @@ import (
 )
 
 func main() {
-	ch_09_mocking.Countdown(os.Stdout)
+	sleeper := &ch_09_mocking.DefaultSleeper{}
+	ch_09_mocking.Countdown(os.Stdout, sleeper)
 }
