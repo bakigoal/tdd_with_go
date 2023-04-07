@@ -19,6 +19,7 @@ func ConfigurableRacer(a, b string, duration time.Duration) (winner string, err 
 		return a, nil
 	case <-ping(b):
 		return b, nil
+		// “Sometimes you'll want to include time.After to prevent blocking forever”
 	case <-time.After(duration):
 		return "", fmt.Errorf("timeout waiting for %s and %s", a, b)
 	}
