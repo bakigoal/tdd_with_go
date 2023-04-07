@@ -44,6 +44,6 @@ func BenchmarkCheckWebsite(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		CheckWebsite(slowStubWebsiteChecker, urls)
 		// blocking: 		2093125417 ns/op
-		// non-blocking: 	21251202 ns/op
+		// non-blocking: 	21251202 ns/op     ~ 100 time faster!
 	}
 }
