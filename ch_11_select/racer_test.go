@@ -19,16 +19,15 @@ func TestRacer(t *testing.T) {
 		fastUrl := fastServer.URL
 
 		want := fastUrl
-		got, _ := Racer(slowUrl, fastUrl)
+		got, err := Racer(slowUrl, fastUrl)
+		assert.NoError(t, err)
 		assert.Equal(t, want, got)
 	})
 	t.Run("error if a server doesn't respond within 10s", func(t *testing.T) {
-		serverA := makeDelayedServer(11 * time.Millisecond)
-		serverB := makeDelayedServer(11 * time.Millisecond)
-		defer serverA.Close()
-		defer serverB.Close()
+		server := makeDelayedServer(11 * time.Millisecond)
+		defer server.Close()
 
-		_, err := ConfigurableRacer(serverA.URL, serverB.URL, 10*time.Millisecond)
+		_, err := ConfigurableRacer(server.URL, server.URL, 10*time.Millisecond)
 		assert.Error(t, err)
 	})
 }
