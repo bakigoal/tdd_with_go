@@ -1,15 +1,20 @@
 package ch_11_select
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 )
 
-func Racer(a, b string) (winner string) {
+func Racer(a, b string) (winner string, err error) {
+	// select lets you wait on multiple channels
 	select {
 	case <-ping(a):
-		return a
+		return a, nil
 	case <-ping(b):
-		return b
+		return b, nil
+	case <-time.After(10 * time.Second):
+		return "", fmt.Errorf("timeout waiting for %s and %s", a, b)
 	}
 }
 
