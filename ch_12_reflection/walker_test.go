@@ -7,17 +7,35 @@ import (
 
 func TestWalk(t *testing.T) {
 
-	expected := "Chris"
-	var got []string
+	cases := []struct {
+		Name          string
+		Input         interface{}
+		ExpectedCalls []string
+	}{
+		{
+			"struct with 1 string",
+			struct {
+				Name string
+			}{"Chris"},
+			[]string{"Chris"},
+		},
+		{
+			"struct with 2 string",
+			struct {
+				Name string
+				City string
+			}{"Chris", "NewYork"},
+			[]string{"Chris", "NewYork"},
+		},
+	}
 
-	x := struct {
-		Name string
-	}{expected}
-
-	Walk(x, func(input string) {
-		got = append(got, input)
-	})
-
-	assert.Equal(t, 1, len(got))
-	assert.Equal(t, expected, got[0])
+	for _, test := range cases {
+		t.Run(test.Name, func(t *testing.T) {
+			var got []string
+			Walk(test.Input, func(input string) {
+				got = append(got, input)
+			})
+			assert.Equal(t, test.ExpectedCalls, got)
+		})
+	}
 }
