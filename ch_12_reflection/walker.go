@@ -11,5 +11,9 @@ func Walk(x interface{}, f func(input string)) {
 		if field.Kind() == reflect.String {
 			f(field.String())
 		}
+
+		if field.Kind() == reflect.Struct {
+			Walk(field.Interface(), f)
+		}
 	}
 }
