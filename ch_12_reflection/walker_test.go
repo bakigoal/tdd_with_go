@@ -113,6 +113,19 @@ func TestWalk(t *testing.T) {
 		})
 		assert.Equal(t, want, got)
 	})
+	t.Run("with function", func(t *testing.T) {
+		aFunction := func() (Profile, Profile) {
+			return Profile{33, "London"}, Profile{34, "Reykjavík"}
+		}
+
+		var got []string
+		want := []string{"London", "Reykjavík"}
+
+		Walk(aFunction, func(input string) {
+			got = append(got, input)
+		})
+		assert.Equal(t, want, got)
+	})
 }
 
 func assertContains(t testing.TB, haystack []string, needle string) {
