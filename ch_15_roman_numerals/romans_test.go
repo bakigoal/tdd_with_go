@@ -8,15 +8,24 @@ import (
 
 func TestRomanNumerals(t *testing.T) {
 	cases := []struct {
-		Num  int
-		Want string
+		Arabic    int
+		WantRoman string
 	}{
 		{1, "I"},
+		{2, "II"},
+		{3, "III"},
+		//{4, "IV"},
+		//{5, "V"},
+		//{6, "VI"},
+		//{7, "VII"},
+		//{8, "VIII"},
+		//{9, "IX"},
+		//{10, "X"},
 	}
 
 	for _, testCase := range cases {
-		t.Run(strconv.Itoa(testCase.Num)+" == "+testCase.Want, func(t *testing.T) {
-			assert.Equal(t, testCase.Want, ConvertToRoman(testCase.Num))
+		t.Run(strconv.Itoa(testCase.Arabic)+" == "+testCase.WantRoman, func(t *testing.T) {
+			assert.Equal(t, testCase.WantRoman, ConvertToRoman(testCase.Arabic))
 		})
 	}
 }
