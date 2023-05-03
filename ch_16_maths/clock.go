@@ -24,8 +24,16 @@ func angleToPoint(angle float64) Point {
 	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
 }
 
-func timeToRadians(unit int) float64 {
-	return math.Pi * (float64(unit) / 30)
+func secondsInRadians(t time.Time) float64 {
+	return math.Pi * (float64(t.Second()) / 30)
+}
+
+func minutesInRadians(t time.Time) float64 {
+	return (secondsInRadians(t) / 60) + (math.Pi * (float64(t.Minute()) / 30))
+}
+
+func hourInRadians(t time.Time) float64 {
+	return (minutesInRadians(t) / 12) + (math.Pi * (float64(t.Hour()%12) / 6))
 }
 
 func SVGWriter(w io.Writer, tm time.Time) {
@@ -52,22 +60,22 @@ func newLine(w io.Writer) {
 }
 
 func HourHand(w io.Writer, t time.Time) {
-	p := getPoint(t.Hour()*5, hourHandLength)
+	p := makeHand(hourInRadians(t), hourHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
 }
 
 func MinuteHand(w io.Writer, t time.Time) {
-	p := getPoint(t.Minute(), minuteHandLength)
+	p := makeHand(minutesInRadians(t), minuteHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
 }
 
 func SecondHand(w io.Writer, t time.Time) {
-	p := getPoint(t.Second(), secondHandLength)
+	p := makeHand(secondsInRadians(t), secondHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
 }
 
-func getPoint(time int, length float64) Point {
-	p := angleToPoint(timeToRadians(time))
+func makeHand(angle float64, length float64) Point {
+	p := angleToPoint(angle)
 	p = Point{p.X * length, p.Y * length}             // scale
 	p = Point{p.X, -p.Y}                              // flip
 	p = Point{p.X + clockCentreX, p.Y + clockCentreY} // translate

@@ -22,7 +22,7 @@ func TestSecondsInRadians(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := timeToRadians(c.time.Second())
+			got := secondsInRadians(c.time)
 			assert.Equal(t, c.angle, got)
 		})
 	}
@@ -41,7 +41,7 @@ func TestSecondHandVector(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := angleToPoint(timeToRadians(c.time.Second()))
+			got := angleToPoint(secondsInRadians(c.time))
 			if !roughlyEqualPoint(c.point, got) {
 				t.Fatalf("Wanted %v, but got %v", c.point, got)
 			}
@@ -91,6 +91,27 @@ func roughlyEqualFloat64(a, b float64) bool {
 func roughlyEqualPoint(a, b Point) bool {
 	return roughlyEqualFloat64(a.X, b.X) &&
 		roughlyEqualFloat64(a.Y, b.Y)
+}
+
+func TestHoursInRadians(t *testing.T) {
+	cases := []struct {
+		time  time.Time
+		angle float64
+	}{
+		{simpleTime(6, 0, 0), math.Pi},
+		{simpleTime(0, 0, 0), 0},
+		{simpleTime(21, 0, 0), math.Pi * 1.5},
+		{simpleTime(0, 1, 30), math.Pi / ((6 * 60 * 60) / 90)},
+	}
+
+	for _, c := range cases {
+		t.Run(testName(c.time), func(t *testing.T) {
+			got := hourInRadians(c.time)
+			if !roughlyEqualFloat64(c.angle, got) {
+				t.Fatalf("Wanted %v radians, but got %v", c.angle, got)
+			}
+		})
+	}
 }
 
 func TestSVGWriterSecondHand(t *testing.T) {
