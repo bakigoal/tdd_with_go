@@ -22,7 +22,7 @@ func TestSecondsInRadians(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := timeUnitInRadians(c.time.Second())
+			got := timeToRadians(c.time.Second())
 			assert.Equal(t, c.angle, got)
 		})
 	}
@@ -41,7 +41,7 @@ func TestSecondHandVector(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := secondPoint(c.time)
+			got := angleToPoint(timeToRadians(c.time.Second()))
 			if !roughlyEqualPoint(c.point, got) {
 				t.Fatalf("Wanted %v, but got %v", c.point, got)
 			}

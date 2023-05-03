@@ -20,22 +20,11 @@ type Point struct {
 	Y float64
 }
 
-func hourPoint(t time.Time) Point {
-	angle := timeUnitInRadians(t.Hour())
+func angleToPoint(angle float64) Point {
 	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
 }
 
-func minutePoint(t time.Time) Point {
-	angle := timeUnitInRadians(t.Minute())
-	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
-}
-
-func secondPoint(t time.Time) Point {
-	angle := timeUnitInRadians(t.Second())
-	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
-}
-
-func timeUnitInRadians(unit int) float64 {
+func timeToRadians(unit int) float64 {
 	return math.Pi * (float64(unit) / 30)
 }
 
@@ -62,28 +51,27 @@ func newLine(w io.Writer) {
 	io.WriteString(w, "\n")
 }
 
-func HourHand(w io.Writer, tm time.Time) {
-	p := hourPoint(tm)
-	p = Point{p.X * hourHandLength, p.Y * hourHandLength} // scale
-	p = Point{p.X, -p.Y}                                  // flip
-	p = Point{p.X + clockCentreX, p.Y + clockCentreY}     // translate
+func HourHand(w io.Writer, t time.Time) {
+	p := getPoint(t.Hour(), hourHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
 }
 
-func MinuteHand(w io.Writer, tm time.Time) {
-	p := minutePoint(tm)
-	p = Point{p.X * minuteHandLength, p.Y * minuteHandLength} // scale
-	p = Point{p.X, -p.Y}                                      // flip
-	p = Point{p.X + clockCentreX, p.Y + clockCentreY}         // translate
+func MinuteHand(w io.Writer, t time.Time) {
+	p := getPoint(t.Minute(), minuteHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
 }
 
 func SecondHand(w io.Writer, t time.Time) {
-	p := secondPoint(t)
-	p = Point{p.X * secondHandLength, p.Y * secondHandLength} // scale
-	p = Point{p.X, -p.Y}                                      // flip
-	p = Point{p.X + clockCentreX, p.Y + clockCentreY}         // translate
+	p := getPoint(t.Second(), secondHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
+}
+
+func getPoint(time int, length float64) Point {
+	p := angleToPoint(timeToRadians(time))
+	p = Point{p.X * length, p.Y * length}             // scale
+	p = Point{p.X, -p.Y}                              // flip
+	p = Point{p.X + clockCentreX, p.Y + clockCentreY} // translate
+	return p
 }
 
 const svgStart = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
