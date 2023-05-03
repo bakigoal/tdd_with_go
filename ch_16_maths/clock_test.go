@@ -67,25 +67,46 @@ func roughlyEqualPoint(a, b Point) bool {
 		roughlyEqualFloat64(a.Y, b.Y)
 }
 
-func TestSVGWriterAtMidnight(t *testing.T) {
-	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
+func TestSVGWriterSecondHand(t *testing.T) {
+	cases := []struct {
+		time time.Time
+		line Line
+	}{
+		{
+			simpleTime(0, 0, 0),
+			Line{150, 150, 150, 60},
+		},
+		{
+			simpleTime(0, 0, 30),
+			Line{150, 150, 150, 240},
+		},
+		{
+			simpleTime(0, 0, 15),
+			Line{150, 150, 240, 150},
+		},
+	}
+	for _, c := range cases {
+		t.Run(testName(c.time), func(t *testing.T) {
+			b := bytes.Buffer{}
+			SVGWriter(&b, c.time)
 
-	b := bytes.Buffer{}
-	SVGWriter(&b, tm)
+			svg := SVG{}
+			xml.Unmarshal(b.Bytes(), &svg)
 
-	svg := SVG{}
-	xml.Unmarshal(b.Bytes(), &svg)
+			if !containsLine(c.line, svg.Line) {
+				t.Errorf("Expected to find the second hand line %+v, in the SVG lines %+v", c.line, svg.Line)
+			}
+		})
+	}
+}
 
-	x2 := 150.000
-	y2 := 60.000
-
-	for _, line := range svg.Line {
-		if line.X2 == x2 && line.Y2 == y2 {
-			return
+func containsLine(l Line, ls []Line) bool {
+	for _, line := range ls {
+		if line == l {
+			return true
 		}
 	}
-
-	t.Errorf("Expected to find the second hand with x2 of %+v and y2 of %+v, in the SVG output %v", x2, y2, b.String())
+	return false
 }
 
 type SVG struct {
