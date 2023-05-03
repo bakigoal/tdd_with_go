@@ -52,7 +52,7 @@ func newLine(w io.Writer) {
 }
 
 func HourHand(w io.Writer, t time.Time) {
-	p := getPoint(t.Hour(), hourHandLength)
+	p := getPoint(t.Hour()*5, hourHandLength)
 	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
 }
 
