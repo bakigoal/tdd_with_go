@@ -3,13 +3,13 @@ package ch_15_roman_numerals
 import "strings"
 
 type RomanNumeral struct {
-	Value  int
+	Value  uint16
 	Symbol string
 }
 
 type RomanNumerals []RomanNumeral
 
-func (r RomanNumerals) ValueOf(symbols ...byte) int {
+func (r RomanNumerals) ValueOf(symbols ...byte) uint16 {
 	for _, s := range r {
 		if s.Symbol == string(symbols) {
 			return s.Value
@@ -34,7 +34,7 @@ var allRomanNumerals = RomanNumerals{
 	{1, "I"},
 }
 
-func ConvertToRoman(arabic int) string {
+func ConvertToRoman(arabic uint16) string {
 	var result strings.Builder
 
 	for _, numeral := range allRomanNumerals {
@@ -46,8 +46,8 @@ func ConvertToRoman(arabic int) string {
 	return result.String()
 }
 
-func ConvertToArabic(roman string) int {
-	total := 0
+func ConvertToArabic(roman string) uint16 {
+	total := uint16(0)
 
 	for i := 0; i < len(roman); i++ {
 		symbol := roman[i]

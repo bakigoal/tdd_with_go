@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"testing/quick"
 )
 
 var testCases = []struct {
-	Arabic int
+	Arabic uint16
 	Roman  string
 }{
 	{Arabic: 1, Roman: "I"},
@@ -54,5 +55,21 @@ func TestConvertToArabic(t *testing.T) {
 		t.Run(fmt.Sprintf("%q gets converted to %d", testCase.Roman, testCase.Arabic), func(t *testing.T) {
 			assert.Equal(t, testCase.Arabic, ConvertToArabic(testCase.Roman))
 		})
+	}
+}
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			return true
+		}
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == arabic
+	}
+
+	err := quick.Check(assertion, &quick.Config{MaxCount: 1000})
+	if err != nil {
+		t.Error("failed checks", err)
 	}
 }
