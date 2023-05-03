@@ -9,6 +9,8 @@ import (
 
 const (
 	secondHandLength = 90
+	minuteHandLength = 80
+	hourHandLength   = 50
 	clockCentreX     = 150
 	clockCentreY     = 150
 )
@@ -18,7 +20,17 @@ type Point struct {
 	Y float64
 }
 
-func secondsHandPoint(t time.Time) Point {
+func hourPoint(t time.Time) Point {
+	angle := timeUnitInRadians(t.Hour())
+	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
+}
+
+func minutePoint(t time.Time) Point {
+	angle := timeUnitInRadians(t.Minute())
+	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
+}
+
+func secondPoint(t time.Time) Point {
 	angle := timeUnitInRadians(t.Second())
 	return Point{X: math.Sin(angle), Y: math.Cos(angle)}
 }
@@ -29,13 +41,45 @@ func timeUnitInRadians(unit int) float64 {
 
 func SVGWriter(w io.Writer, tm time.Time) {
 	io.WriteString(w, svgStart)
+	newLine(w)
+
 	io.WriteString(w, bezel)
+	newLine(w)
+
+	HourHand(w, tm)
+	newLine(w)
+
+	MinuteHand(w, tm)
+	newLine(w)
+
 	SecondHand(w, tm)
+	newLine(w)
+
 	io.WriteString(w, svgEnd)
 }
 
+func newLine(w io.Writer) {
+	io.WriteString(w, "\n")
+}
+
+func HourHand(w io.Writer, tm time.Time) {
+	p := hourPoint(tm)
+	p = Point{p.X * hourHandLength, p.Y * hourHandLength} // scale
+	p = Point{p.X, -p.Y}                                  // flip
+	p = Point{p.X + clockCentreX, p.Y + clockCentreY}     // translate
+	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
+}
+
+func MinuteHand(w io.Writer, tm time.Time) {
+	p := minutePoint(tm)
+	p = Point{p.X * minuteHandLength, p.Y * minuteHandLength} // scale
+	p = Point{p.X, -p.Y}                                      // flip
+	p = Point{p.X + clockCentreX, p.Y + clockCentreY}         // translate
+	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:7px;"/>`, p.X, p.Y)
+}
+
 func SecondHand(w io.Writer, t time.Time) {
-	p := secondsHandPoint(t)
+	p := secondPoint(t)
 	p = Point{p.X * secondHandLength, p.Y * secondHandLength} // scale
 	p = Point{p.X, -p.Y}                                      // flip
 	p = Point{p.X + clockCentreX, p.Y + clockCentreY}         // translate
@@ -47,12 +91,8 @@ const svgStart = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg"
      width="100%"
 	 height="100%"
-     viewBox="0 0 300 300">
-`
+     viewBox="0 0 300 300">`
 
-const bezel = `
-<circle cx="150" cy="150" r="100" style="fill:#fff;stroke:#000;stroke-width:5px;"/>
-`
+const bezel = `<circle cx="150" cy="150" r="100" style="fill:#fff;stroke:#000;stroke-width:5px;"/>`
 
-const svgEnd = `
-</svg>`
+const svgEnd = `</svg>`

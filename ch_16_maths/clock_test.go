@@ -41,9 +41,35 @@ func TestSecondHandVector(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(testName(c.time), func(t *testing.T) {
-			got := secondsHandPoint(c.time)
+			got := secondPoint(c.time)
 			if !roughlyEqualPoint(c.point, got) {
 				t.Fatalf("Wanted %v, but got %v", c.point, got)
+			}
+		})
+	}
+}
+
+func TestSVGWriterMinuteHand(t *testing.T) {
+	cases := []struct {
+		time time.Time
+		line Line
+	}{
+		{
+			simpleTime(0, 0, 0),
+			Line{150, 150, 150, 70},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(testName(c.time), func(t *testing.T) {
+			b := bytes.Buffer{}
+			SVGWriter(&b, c.time)
+
+			svg := SVG{}
+			xml.Unmarshal(b.Bytes(), &svg)
+
+			if !containsLine(c.line, svg.Line) {
+				t.Errorf("Expected to find the minute hand line %+v, in the SVG lines %+v", c.line, svg.Line)
 			}
 		})
 	}
