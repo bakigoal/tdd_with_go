@@ -50,8 +50,8 @@ func newPost(postFile io.Reader) (Post, error) {
 		return strings.TrimPrefix(scanner.Text(), tagName)
 	}
 
-	title := readMetaLine(titleSeparator)
-	description := readMetaLine(descriptionSeparator)
-
-	return Post{Title: title, Description: description}, nil
+	return Post{
+		Title:       readMetaLine(titleSeparator),
+		Description: readMetaLine(descriptionSeparator),
+	}, nil
 }
