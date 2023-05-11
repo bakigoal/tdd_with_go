@@ -24,9 +24,11 @@ func TestFailingStub(t *testing.T) {
 func TestNewBlogPosts(t *testing.T) {
 	const (
 		body1 = `Title: Post 1
-Description: Description 1`
+Description: Description 1
+Tags: tdd, go`
 		body2 = `Title: Post 2
-Description: Description 2`
+Description: Description 2
+Tags: rust, borrow-checker`
 	)
 
 	fs := fstest.MapFS{
@@ -37,6 +39,14 @@ Description: Description 2`
 	posts, err := blogposts.NewPostsFromFS(fs)
 	assert.NoError(t, err)
 	assert.Equal(t, len(posts), len(fs))
-	assert.Equal(t, blogposts.Post{Title: "Post 1", Description: "Description 1"}, posts[0])
-	assert.Equal(t, blogposts.Post{Title: "Post 2", Description: "Description 2"}, posts[1])
+	expectedPost1 := blogposts.Post{
+		Title:       "Post 1",
+		Description: "Description 1",
+		Tags:        []string{"tdd", "go"}}
+	expectedPost2 := blogposts.Post{
+		Title:       "Post 2",
+		Description: "Description 2",
+		Tags:        []string{"rust", "borrow-checker"}}
+	assert.Equal(t, expectedPost1, posts[0])
+	assert.Equal(t, expectedPost2, posts[1])
 }

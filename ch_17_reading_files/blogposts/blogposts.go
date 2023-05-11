@@ -10,6 +10,7 @@ import (
 const (
 	titleSeparator       = "Title: "
 	descriptionSeparator = "Description: "
+	tagsSeparator        = "Tags: "
 )
 
 type Post struct {
@@ -45,13 +46,14 @@ func getPost(fileSystem fs.FS, filename string) (Post, error) {
 func newPost(postFile io.Reader) (Post, error) {
 	scanner := bufio.NewScanner(postFile)
 
-	readMetaLine := func(tagName string) string {
+	readMetaLine := func(prefix string) string {
 		scanner.Scan()
-		return strings.TrimPrefix(scanner.Text(), tagName)
+		return strings.TrimPrefix(scanner.Text(), prefix)
 	}
 
 	return Post{
 		Title:       readMetaLine(titleSeparator),
 		Description: readMetaLine(descriptionSeparator),
+		Tags:        strings.Split(readMetaLine(tagsSeparator), ", "),
 	}, nil
 }
