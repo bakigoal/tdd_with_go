@@ -7,11 +7,11 @@ type Post struct {
 	Tags                     []string
 }
 
-func NewPostsFromFS(fileSystem fs.FS) []Post {
+func NewPostsFromFS(fileSystem fs.FS) ([]Post, error) {
 	dir, _ := fs.ReadDir(fileSystem, ".")
 	var posts []Post
 	for range dir {
 		posts = append(posts, Post{})
 	}
-	return posts
+	return posts, nil
 }
