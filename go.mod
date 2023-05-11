@@ -1,4 +1,4 @@
-module tdd_with_go
+module github.com/bakigoal/tdd_with_go
 
 go 1.19
 
