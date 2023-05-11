@@ -23,12 +23,14 @@ func TestFailingStub(t *testing.T) {
 
 func TestNewBlogPosts(t *testing.T) {
 	fs := fstest.MapFS{
-		"hello world.md":  {Data: []byte("hi")},
-		"hello-world2.md": {Data: []byte("hola")},
+		"hello world.md":  {Data: []byte("Title: Post 1")},
+		"hello-world2.md": {Data: []byte("Title: Post 2")},
 	}
 
 	posts, err := blogposts.NewPostsFromFS(fs)
-
 	assert.NoError(t, err)
 	assert.Equal(t, len(posts), len(fs))
+
+	assert.Equal(t, blogposts.Post{Title: "Post 1"}, posts[0])
+	assert.Equal(t, blogposts.Post{Title: "Post 2"}, posts[1])
 }
