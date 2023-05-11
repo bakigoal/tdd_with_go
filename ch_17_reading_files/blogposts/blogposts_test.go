@@ -25,10 +25,14 @@ func TestNewBlogPosts(t *testing.T) {
 	const (
 		body1 = `Title: Post 1
 Description: Description 1
-Tags: tdd, go`
+Tags: tdd, go
+---
+Hello World!!!`
 		body2 = `Title: Post 2
 Description: Description 2
-Tags: rust, borrow-checker`
+Tags: rust, borrow-checker
+---
+Hey There!`
 	)
 
 	fs := fstest.MapFS{
@@ -42,11 +46,15 @@ Tags: rust, borrow-checker`
 	expectedPost1 := blogposts.Post{
 		Title:       "Post 1",
 		Description: "Description 1",
-		Tags:        []string{"tdd", "go"}}
+		Tags:        []string{"tdd", "go"},
+		Body:        "Hello World!!!",
+	}
 	expectedPost2 := blogposts.Post{
 		Title:       "Post 2",
 		Description: "Description 2",
-		Tags:        []string{"rust", "borrow-checker"}}
+		Tags:        []string{"rust", "borrow-checker"},
+		Body:        "Hey There!",
+	}
 	assert.Equal(t, expectedPost1, posts[0])
 	assert.Equal(t, expectedPost2, posts[1])
 }
