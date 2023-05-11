@@ -1,4 +1,4 @@
-module github.com/bakigoal/blogposts
+module tdd_with_go
 
 go 1.19
 

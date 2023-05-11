@@ -3,6 +3,7 @@ package blogposts_test
 import (
 	"errors"
 	"github.com/bakigoal/blogposts"
+	"github.com/stretchr/testify/assert"
 	"io/fs"
 	"testing"
 	"testing/fstest"
@@ -17,9 +18,7 @@ func (s StubFailingFS) Open(name string) (fs.File, error) {
 
 func TestFailingStub(t *testing.T) {
 	_, err := blogposts.NewPostsFromFS(StubFailingFS{})
-	if err == nil {
-		t.Fatal(err)
-	}
+	assert.Error(t, err)
 }
 
 func TestNewBlogPosts(t *testing.T) {
@@ -30,11 +29,6 @@ func TestNewBlogPosts(t *testing.T) {
 
 	posts, err := blogposts.NewPostsFromFS(fs)
 
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if len(posts) != len(fs) {
-		t.Errorf("got %d posts, wanted %d posts", len(posts), len(fs))
-	}
+	assert.NoError(t, err)
+	assert.Equal(t, len(posts), len(fs))
 }
