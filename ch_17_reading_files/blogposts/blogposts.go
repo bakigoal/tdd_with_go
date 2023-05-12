@@ -15,11 +15,6 @@ const (
 	tagsSeparator        = "Tags: "
 )
 
-type Post struct {
-	Title, Description, Body string
-	Tags                     []string
-}
-
 func NewPostsFromFS(fileSystem fs.FS) ([]Post, error) {
 	dir, err := fs.ReadDir(fileSystem, ".")
 	if err != nil {

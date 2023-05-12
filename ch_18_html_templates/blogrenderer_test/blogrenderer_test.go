@@ -2,6 +2,7 @@ package blogrenderer_test
 
 import (
 	"bytes"
+	"github.com/bakigoal/tdd_with_go/ch_17_reading_files/blogposts"
 	"github.com/bakigoal/tdd_with_go/ch_18_html_templates/blogrenderer"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -9,7 +10,7 @@ import (
 
 func TestRender(t *testing.T) {
 	var (
-		aPost = blogrenderer.Post{
+		aPost = blogposts.Post{
 			Title:       "hello world",
 			Body:        "This is a post",
 			Description: "This is a description",

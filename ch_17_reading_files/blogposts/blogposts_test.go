@@ -2,7 +2,7 @@ package blogposts_test
 
 import (
 	"errors"
-	"github.com/bakigoal/blogposts"
+	"github.com/bakigoal/tdd_with_go/ch_17_reading_files/blogposts"
 	"github.com/stretchr/testify/assert"
 	"io/fs"
 	"testing"
