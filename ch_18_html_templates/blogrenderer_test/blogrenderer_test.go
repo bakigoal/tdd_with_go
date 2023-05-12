@@ -21,7 +21,7 @@ func TestRender(t *testing.T) {
 		buf := bytes.Buffer{}
 		err := blogrenderer.Render(&buf, aPost)
 		assert.NoError(t, err)
-		want := `<h1>hello world</h1>`
+		want := `<h1>hello world</h1><p>This is a description</p>Tags: <ul><li>go</li><li>tdd</li></ul>`
 		got := buf.String()
 		assert.Equal(t, want, got)
 	})

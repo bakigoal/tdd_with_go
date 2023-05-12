@@ -6,8 +6,27 @@ import (
 	"io"
 )
 
-func Render(writer io.Writer, post blogposts.Post) error {
-	htmlTemplate := `<h1>%s</h1>`
-	_, err := fmt.Fprintf(writer, htmlTemplate, post.Title)
-	return err
+func Render(w io.Writer, p blogposts.Post) error {
+	_, err := fmt.Fprintf(w, "<h1>%s</h1><p>%s</p>", p.Title, p.Description)
+	if err != nil {
+		return err
+	}
+
+	_, err = fmt.Fprint(w, "Tags: <ul>")
+	if err != nil {
+		return err
+	}
+	for _, tag := range p.Tags {
+		_, err = fmt.Fprintf(w, "<li>%s</li>", tag)
+		if err != nil {
+			return err
+		}
+	}
+
+	_, err = fmt.Fprint(w, "</ul>")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
