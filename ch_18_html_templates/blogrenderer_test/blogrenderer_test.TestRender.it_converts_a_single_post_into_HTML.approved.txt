@@ -17,18 +17,18 @@
             </ul>
         </div>
     </nav>
+    <main>
 
-<main>
-    <h1>hello world</h1>
+<h1>hello world</h1>
 
-    <p>This is a description</p>
+<p>This is a description</p>
 
-    Tags:
-    <ul>
+Tags:
+<ul>
         <li>go</li>
         <li>tdd</li></ul>
-</main>
 
+    </main>
     <footer>
         <ul>
             <li><a href="https://twitter.com/quii">Twitter</a></li>
