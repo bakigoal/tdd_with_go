@@ -1,29 +1,22 @@
 package blogrenderer
 
 import (
-	"fmt"
 	"github.com/bakigoal/tdd_with_go/ch_17_reading_files/blogposts"
+	"html/template"
 	"io"
 )
 
+const (
+	postTemplate = `<h1>{{.Title}}</h1><p>{{.Description}}</p>Tags: <ul>{{range .Tags}}<li>{{.}}</li>{{end}}</ul>`
+)
+
 func Render(w io.Writer, p blogposts.Post) error {
-	_, err := fmt.Fprintf(w, "<h1>%s</h1><p>%s</p>", p.Title, p.Description)
+	templ, err := template.New("blog").Parse(postTemplate)
 	if err != nil {
 		return err
 	}
 
-	_, err = fmt.Fprint(w, "Tags: <ul>")
-	if err != nil {
-		return err
-	}
-	for _, tag := range p.Tags {
-		_, err = fmt.Fprintf(w, "<li>%s</li>", tag)
-		if err != nil {
-			return err
-		}
-	}
-
-	_, err = fmt.Fprint(w, "</ul>")
+	err = templ.Execute(w, p)
 	if err != nil {
 		return err
 	}
