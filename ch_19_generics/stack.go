@@ -8,12 +8,12 @@ func (s *StackOfInts) Push(value int) {
 	s.values = append(s.values, value)
 }
 
-func (s *StackOfInts) isEmpty() bool {
+func (s *StackOfInts) IsEmpty() bool {
 	return len(s.values) == 0
 }
 
 func (s *StackOfInts) Pop() (int, bool) {
-	if s.isEmpty() {
+	if s.IsEmpty() {
 		return 0, false
 	}
 
@@ -31,12 +31,12 @@ func (s *StackOfStrings) Push(value string) {
 	s.values = append(s.values, value)
 }
 
-func (s *StackOfStrings) isEmpty() bool {
+func (s *StackOfStrings) IsEmpty() bool {
 	return len(s.values) == 0
 }
 
 func (s *StackOfStrings) Pop() (string, bool) {
-	if s.isEmpty(){
+	if s.IsEmpty() {
 		return "", false
 	}
 
