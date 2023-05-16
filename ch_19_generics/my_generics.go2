@@ -1,9 +1,0 @@
-package ch_19_generics
-
-func GenericFoo[T any](x, y T) {
-	// x and y with the same type T
-}
-
-func InterfaceFoo(x, y interface{}) {
-	// x and y can be with different types
-}
